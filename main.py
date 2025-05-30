@@ -20,10 +20,22 @@ from db import engine, Base
 from starlette.middleware.sessions import SessionMiddleware
 from routers.login import SECRET_KEY
 from admin_panel.login import AdminAuth
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(docs_url='/')
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 Base.metadata.create_all(bind=engine)
+
+app.mount("/images", StaticFiles(directory="images"), name="images")
 
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
