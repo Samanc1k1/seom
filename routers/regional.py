@@ -5,7 +5,7 @@ from functions.regional import add_regional, update_regional, delete_regional
 from models.regional import Regional
 from models.users import Users
 from routers.login import get_current_user
-from save_image2 import save_image2
+from save_image import save_image
 from schemas.regional import CreateRegional, UpdateRegional
 
 regional_routers = APIRouter(tags=["Regional"])
@@ -25,9 +25,9 @@ def upd_regional(form: UpdateRegional, db: Session = Depends(database), current_
     return update_regional(form, db, current_user)
 
 
-@regional_routers.put('/update_image')
+@regional_routers.put('/regional_image')
 def images_upload(idents: int, file: UploadFile, db: Session = Depends(database)):
-    image = save_image2(file)
+    image = save_image(file)
     db.query(Regional).filter(Regional.id == idents).update({Regional.image: image})
     db.commit()
     return {"Rasm muvaffaqiyatli yuklandi"}

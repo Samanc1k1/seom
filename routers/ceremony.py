@@ -5,7 +5,7 @@ from functions.ceremony import add_ceremony, update_ceremony, delete_ceremony
 from models.ceremony import Ceremony
 from models.users import Users
 from routers.login import get_current_user
-from save_image4 import save_image4
+from save_image import save_image
 from schemas.ceremony import CreateCeremony, UpdateCeremony
 
 ceremony_routers = APIRouter(tags=["Ceremony"])
@@ -25,9 +25,9 @@ def upd_ceremony(form: UpdateCeremony, db: Session = Depends(database), current_
     return update_ceremony(form, db, current_user)
 
 
-@ceremony_routers.put("/update_image4")
+@ceremony_routers.put("/ceremony_image")
 def image_uploaded(idents: int, file: UploadFile, db: Session = Depends(database)):
-    image = save_image4(file)
+    image = save_image(file)
     db.query(Ceremony).filter(Ceremony.id == idents).update({Ceremony.image: image})
     db.commit()
     return {"massage": "Rasm muvaffaqiyatli yuklandi"}

@@ -25,7 +25,7 @@ def upd_document(forms: UpdateDocuments, db: Session = Depends(database), curren
      return update_documents(forms, db, current_user)
 
 
-@document_routers.put('/update_fayl')
+@document_routers.put('/document_file')
 def file_upload(idents: int, file:UploadFile, db:Session = Depends(database)):
     file = save_file(file)
     db.query(Documents).filter(Documents.id == idents).update({Documents.file: file})

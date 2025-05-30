@@ -5,7 +5,7 @@ from functions.management import add_management, update_management, delete_manag
 from models.management import Management
 from models.users import Users
 from routers.login import get_current_user
-from save_image3 import save_image3
+from save_image import save_image
 from schemas.management import CreateManagement, UpdateManagement
 
 management_routers = APIRouter(tags=["Management"])
@@ -25,9 +25,9 @@ def upd_management(form: UpdateManagement, db: Session = Depends(database), curr
     return update_management(form, db, current_user)
 
 
-@management_routers.put("/update_image")
+@management_routers.put("/management_image")
 def image_upload(idents: int, file: UploadFile, db: Session = Depends(database)):
-    image = save_image3(file)
+    image = save_image(file)
     db.query(Management).filter(Management.id == idents).update({Management.image: image})
     db.commit()
     return {"massage": "Rasm muvaffaqiyatli yuklandi"}
