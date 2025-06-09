@@ -1,4 +1,5 @@
 from fastapi import Depends, APIRouter, UploadFile
+from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from db import database
 from functions.regional import add_regional, update_regional, delete_regional
@@ -11,11 +12,12 @@ from schemas.regional import CreateRegional, UpdateRegional
 regional_routers = APIRouter(tags=["Regional"])
 
 @regional_routers.get('/get_regional')
-def get_regional(ident:int = None, db: Session = Depends(database)):
+def get_regional(ident:int = None, db: Session = Depends(database))-> Page[CreateRegional]:
     if ident:
-        return db.query(Regional).filter(Regional.id == ident)
+        return db.query(Regional).filter(Regional.id == ident).first()
     else:
-        return db.query(Regional).all()
+        a = db.query(Regional).all()
+        return paginate(a)
 
 
 @regional_routers.post('/create_regional')

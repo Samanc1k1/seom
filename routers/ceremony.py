@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, UploadFile
+from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from db import database
 from functions.ceremony import add_ceremony, update_ceremony, delete_ceremony
@@ -11,11 +12,12 @@ from schemas.ceremony import CreateCeremony, UpdateCeremony
 ceremony_routers = APIRouter(tags=["Ceremony"])
 
 @ceremony_routers.get("/get_ceremony")
-def get_ceremony(ident:int = None, db: Session = Depends(database)):
+def get_ceremony(ident:int = None, db: Session = Depends(database))-> Page[CreateCeremony]:
     if ident:
         return db.query(Ceremony).filter(Ceremony.id == ident).first()
     else:
-        return db.query(Ceremony).all()
+        a = db.query(Ceremony).all()
+        return paginate(a)
 
 
 

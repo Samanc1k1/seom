@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, UploadFile
+from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from db import database
 from functions.documents import add_documents, update_documents, delete_documents
@@ -11,11 +12,12 @@ from schemas.documents import CreateDocument, UpdateDocuments
 document_routers = APIRouter(tags=['Document'])
 
 @document_routers.get('/get_documents')
-def get_document(ident:int = None, db: Session = Depends(database)):
+def get_document(ident:int = None, db: Session = Depends(database))-> Page[CreateDocument]:
     if ident:
         return db.query(Documents).filter(Documents.id == ident).first()
     else:
-        return db.query(Documents).all()
+        a = db.query(Documents).all()
+        return paginate(a)
 
 
 @document_routers.post('/create_document')

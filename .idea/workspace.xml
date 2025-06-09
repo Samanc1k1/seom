@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="be4772e9-0011-4088-a9cc-e68b323e0187" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/ceremony.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/ceremony.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/documents.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/documents.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/management.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/management.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/news.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/news.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/regional.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/regional.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/tenders.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/tenders.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/test.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

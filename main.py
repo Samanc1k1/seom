@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi_pagination import add_pagination
 from sqladmin import Admin
 from admin_panel.ceremony import CeremonyAdmin
 from admin_panel.event import EventAdmin
@@ -24,6 +25,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(docs_url='/')
+
+add_pagination(app)
 
 app.add_middleware(
     CORSMiddleware,

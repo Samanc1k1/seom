@@ -1,4 +1,5 @@
 from fastapi import Depends, APIRouter, UploadFile
+from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from db import database
 from functions.tenders import add_tender, update_tender, delete_tender
@@ -12,11 +13,12 @@ from schemas.tenders import CreateTenders, UpdateTenders
 tender_router = APIRouter(tags=["Tenders"])
 
 @tender_router.get("/get_tender")
-def get_tender(ident:int = None, db: Session = Depends(database)):
+def get_tender(ident:int = None, db: Session = Depends(database))-> Page[CreateTenders]:
     if ident:
-        return db.query(Tenders).filter(Tenders.id == ident)
+        return db.query(Tenders).filter(Tenders.id == ident).first()
     else:
-        return db.query(Tenders).all()
+        a = db.query(Tenders).all()
+        return paginate(a)
 
 
 @tender_router.post("/create_tender")

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, UploadFile
+from fastapi_pagination import paginate, Page
 from sqlalchemy.orm import Session
 from db import database
 from functions.management import add_management, update_management, delete_management
@@ -11,11 +12,12 @@ from schemas.management import CreateManagement, UpdateManagement
 management_routers = APIRouter(tags=["Management"])
 
 @management_routers.get("/get_management")
-def get_management(ident:int = None, db: Session = Depends(database)):
+def get_management(ident:int = None, db: Session = Depends(database)) -> Page[CreateManagement]:
     if ident:
-        return db.query(Management).filter(Management.id == ident)
+        return db.query(Management).filter(Management.id == ident).first()
     else:
-        return db.query(Management).all()
+        a = db.query(Management).all()
+        return paginate(a)
 
 
 @management_routers.post("/create_management")
