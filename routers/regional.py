@@ -11,8 +11,11 @@ from schemas.regional import CreateRegional, UpdateRegional
 regional_routers = APIRouter(tags=["Regional"])
 
 @regional_routers.get('/get_regional')
-def get_regional(db: Session = Depends(database)):
-    return db.query(Regional).all()
+def get_regional(ident:int = None, db: Session = Depends(database)):
+    if ident:
+        return db.query(Regional).filter(Regional.id == ident)
+    else:
+        return db.query(Regional).all()
 
 
 @regional_routers.post('/create_regional')

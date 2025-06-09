@@ -11,8 +11,11 @@ event_routers = APIRouter(tags=["/Events"])
 
 
 @event_routers.get("/get_event")
-def get_event(db: Session = Depends(database)):
-    return db.query(Event).all()
+def get_event(ident:int = None, db: Session = Depends(database)):
+    if ident:
+       return db.query(Event).filter(Event.id == ident).first()
+    else:
+        return db.query(Event).all()
 
 
 @event_routers.post("/create_event")

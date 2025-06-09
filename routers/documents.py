@@ -11,8 +11,11 @@ from schemas.documents import CreateDocument, UpdateDocuments
 document_routers = APIRouter(tags=['Document'])
 
 @document_routers.get('/get_documents')
-def get_document(db: Session = Depends(database)):
-    return db.query(Documents).all()
+def get_document(ident:int = None, db: Session = Depends(database)):
+    if ident:
+        return db.query(Documents).filter(Documents.id == ident).first()
+    else:
+        return db.query(Documents).all()
 
 
 @document_routers.post('/create_document')

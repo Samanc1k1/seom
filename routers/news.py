@@ -12,8 +12,11 @@ from schemas.news import CreateNews, UpdateNews
 news_routers = APIRouter(tags=['Yangilik'])
 
 @news_routers.get('/get_news')
-def get_news(db: Session = Depends(database)):
-    return db.query(News).all()
+def get_news(ident:int = None, db: Session = Depends(database)):
+    if ident:
+        return db.query(News).filter(News.id == ident)
+    else:
+        return db.query(News).all()
 
 
 @news_routers.post('/create_news')

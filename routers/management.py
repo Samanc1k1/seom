@@ -11,8 +11,11 @@ from schemas.management import CreateManagement, UpdateManagement
 management_routers = APIRouter(tags=["Management"])
 
 @management_routers.get("/get_management")
-def get_management(db: Session = Depends(database)):
-    return db.query(Management).all()
+def get_management(ident:int = None, db: Session = Depends(database)):
+    if ident:
+        return db.query(Management).filter(Management.id == ident)
+    else:
+        return db.query(Management).all()
 
 
 @management_routers.post("/create_management")

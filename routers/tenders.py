@@ -12,8 +12,11 @@ from schemas.tenders import CreateTenders, UpdateTenders
 tender_router = APIRouter(tags=["Tenders"])
 
 @tender_router.get("/get_tender")
-def get_tender(db: Session = Depends(database)):
-    return db.query(Tenders).all()
+def get_tender(ident:int = None, db: Session = Depends(database)):
+    if ident:
+        return db.query(Tenders).filter(Tenders.id == ident)
+    else:
+        return db.query(Tenders).all()
 
 
 @tender_router.post("/create_tender")

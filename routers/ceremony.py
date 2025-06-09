@@ -11,8 +11,12 @@ from schemas.ceremony import CreateCeremony, UpdateCeremony
 ceremony_routers = APIRouter(tags=["Ceremony"])
 
 @ceremony_routers.get("/get_ceremony")
-def get_ceremony(db: Session = Depends(database)):
-    return db.query(Ceremony).all()
+def get_ceremony(ident:int = None, db: Session = Depends(database)):
+    if ident:
+        return db.query(Ceremony).filter(Ceremony.id == ident).first()
+    else:
+        return db.query(Ceremony).all()
+
 
 
 @ceremony_routers.post("/create_ceremony")
