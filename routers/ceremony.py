@@ -8,6 +8,7 @@ from models.users import Users
 from routers.login import get_current_user
 from save_image import save_image
 from schemas.ceremony import CreateCeremony, UpdateCeremony
+from utils.ident import check_ident
 
 ceremony_routers = APIRouter(tags=["Ceremony"])
 
@@ -33,6 +34,7 @@ def upd_ceremony(form: UpdateCeremony, db: Session = Depends(database), current_
 
 @ceremony_routers.put("/ceremony_image")
 def image_uploaded(idents: int, file: UploadFile, db: Session = Depends(database)):
+    check_ident(db, Ceremony, idents)
     image = save_image(file)
     db.query(Ceremony).filter(Ceremony.id == idents).update({Ceremony.image: image})
     db.commit()

@@ -8,6 +8,7 @@ from models.users import Users
 from routers.login import get_current_user
 from save_image import save_image
 from schemas.management import CreateManagement, UpdateManagement
+from utils.ident import check_ident
 
 management_routers = APIRouter(tags=["Management"])
 
@@ -32,6 +33,7 @@ def upd_management(form: UpdateManagement, db: Session = Depends(database), curr
 
 @management_routers.put("/management_image")
 def image_upload(idents: int, file: UploadFile, db: Session = Depends(database)):
+    check_ident(db, Management, idents)
     image = save_image(file)
     db.query(Management).filter(Management.id == idents).update({Management.image: image})
     db.commit()

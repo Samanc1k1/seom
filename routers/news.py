@@ -8,6 +8,7 @@ from models.users import Users
 from routers.login import get_current_user
 from save_image import save_image
 from schemas.news import CreateNews, UpdateNews
+from utils.ident import check_ident
 
 
 news_routers = APIRouter(tags=['Yangilik'])
@@ -33,6 +34,7 @@ def upd_news(forms: UpdateNews, db: Session = Depends(database), current_user: U
 
 @news_routers.put('/news_images')
 def image_uploads(idents: int, file:UploadFile, db:Session = Depends(database)):
+    check_ident(db, News, idents)
     image = save_image(file)
     db.query(News).filter(News.id == idents).update({News.image: image})
     db.commit()

@@ -8,6 +8,7 @@ from models.users import Users
 from routers.login import get_current_user
 from save_file import save_file
 from schemas.documents import CreateDocument, UpdateDocuments
+from utils.ident import check_ident
 
 document_routers = APIRouter(tags=['Document'])
 
@@ -32,6 +33,7 @@ def upd_document(forms: UpdateDocuments, db: Session = Depends(database), curren
 
 @document_routers.put('/document_file')
 def file_upload(idents: int, file:UploadFile, db:Session = Depends(database)):
+    check_ident(db, Documents, idents)
     file = save_file(file)
     db.query(Documents).filter(Documents.id == idents).update({Documents.file: file})
     db.commit()

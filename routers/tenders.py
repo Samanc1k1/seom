@@ -9,6 +9,7 @@ from routers.login import get_current_user
 from save_image import save_image
 from save_file import save_file
 from schemas.tenders import CreateTenders, UpdateTenders
+from utils.ident import check_ident
 
 tender_router = APIRouter(tags=["Tenders"])
 
@@ -41,6 +42,7 @@ def image_uploaded(idents: int, file: UploadFile, db: Session = Depends(database
 
 @tender_router.delete("/tender_file")
 def file_uploaded(idents: int, file:UploadFile, db:Session = Depends(database)):
+    check_ident(db, Tenders, idents)
     file = save_file(file)
     db.query(Tenders).filter(Tenders.id == idents).update({Tenders.file: file})
     db.commit()
