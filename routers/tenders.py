@@ -34,6 +34,7 @@ def upd_tender(form: UpdateTenders, db: Session = Depends(database), current_use
 
 @tender_router.put("/tender_image")
 def image_uploaded(idents: int, file: UploadFile, db: Session = Depends(database)):
+    check_ident(db, Tenders, idents)
     image = save_image(file)
     db.query(Tenders).filter(Tenders.id == idents).update({Tenders.image: image})
     db.commit()
