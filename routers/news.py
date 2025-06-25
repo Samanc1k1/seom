@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, UploadFile
-from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from db import database
 from functions.news import add_news, update_news, delete_news
@@ -14,12 +13,9 @@ from utils.ident import check_ident
 news_routers = APIRouter(tags=['Yangilik'])
 
 @news_routers.get('/get_news')
-def get_news(ident:int = None, db: Session = Depends(database))-> Page[CreateNews]:
-    if ident:
-        return db.query(News).filter(News.id == ident).first()
-    else:
-        a = db.query(News).all()
-        return paginate(a)
+def get_news(page:int, limit:int, db: Session = Depends(database)):
+    offset = (page - 1) * limit
+    return db.query(News).limit(limit).offset(offset).all()
 
 
 @news_routers.post('/create_news')

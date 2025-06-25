@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from db import database
 from functions.events import add_event, update_event, delete_event
@@ -12,12 +11,9 @@ event_routers = APIRouter(tags=["/Events"])
 
 
 @event_routers.get("/get_event")
-def get_event(ident:int = None, db: Session = Depends(database))-> Page[CreateEvent]:
-    if ident:
-       return db.query(Event).filter(Event.id == ident).first()
-    else:
-        a = db.query(Event).all()
-        return paginate(a)
+def get_event(page:int, limit:int, db: Session = Depends(database)):
+    offset = (page - 1) * limit
+    return db.query(Event).limit(limit).offset(offset).all()
 
 
 @event_routers.post("/create_event")
